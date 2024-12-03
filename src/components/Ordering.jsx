@@ -3,7 +3,7 @@ import { useForm } from "antd/es/form/Form";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ordersActions } from "../store/order-slice";
-import { cartUIActions } from "../store/cartUI-slice";
+import { UIActions } from "../store/UI-slice";
 
 const Ordering = () => {
   const [form] = useForm();
@@ -12,9 +12,9 @@ const Ordering = () => {
   const handleSubmit = (userData) => {
     dispatch(ordersActions.createOrder({ userData, items }));
     if (userData.pay === "online") {
-      dispatch(cartUIActions.changeCurrentWindow("onlinePay"));
+      dispatch(UIActions.changecurrentModalWindow("onlinePay"));
     } else {
-      dispatch(cartUIActions.changeCurrentWindow("orderComplete"));
+      dispatch(UIActions.changecurrentModalWindow("orderComplete"));
     }
   };
 
@@ -49,7 +49,11 @@ const Ordering = () => {
       >
         <Input type="number" addonBefore="+375" />
       </Form.Item>
-      <Form.Item label="Оплата" name="pay" rules={[{ required: true }]}>
+      <Form.Item
+        label="Оплата"
+        name="pay"
+        rules={[{ required: true, message: "" }]}
+      >
         <Radio.Group>
           <Radio value="online">Онлайн</Radio>
           <Radio value="offline">При получении</Radio>

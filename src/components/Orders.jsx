@@ -1,22 +1,26 @@
 import React from "react";
-import { List, Table } from "antd";
-import { useSelector } from "react-redux";
+import { List, Switch, Table } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { ordersActions } from "../store/order-slice";
 
 const Orders = () => {
+  const dispatch = useDispatch();
+  const changeIsComplete = (orderStatus) => {
+    dispatch(ordersActions.changeOrderStatus(orderStatus));
+  };
   const orders = useSelector((store) => store.orders.orderList);
+
   const columns = [
     {
       title: "Номер заказа",
       dataIndex: "id",
       key: "id",
-      width: "15%",
       align: "center",
     },
     {
       title: "Получатель",
       dataIndex: "userData",
       key: "name",
-      width: "25%",
       align: "center",
       render: (userData) => userData.name,
     },
@@ -24,7 +28,6 @@ const Orders = () => {
       title: "Состав заказа",
       dataIndex: "items",
       key: "items",
-      width: "45%",
       align: "center",
       render: (items) => (
         <List
@@ -42,7 +45,6 @@ const Orders = () => {
       title: "Время оформления заказа",
       dataIndex: "createdAt",
       key: "createdAt",
-      width: "15%",
       align: "center",
       render: (createdAt) =>
         new Intl.DateTimeFormat("ru-RU", {
@@ -53,6 +55,18 @@ const Orders = () => {
           minute: "2-digit",
           second: "2-digit",
         }).format(createdAt),
+    },
+    {
+      title: "Статус заказа",
+      dataIndex: "id",
+      key: "isComplete",
+      align: "center",
+      render: (id, order) => (
+        <Switch
+          checked={order.isComplete}
+          onClick={() => changeIsComplete(id)}
+        />
+      ),
     },
   ];
 

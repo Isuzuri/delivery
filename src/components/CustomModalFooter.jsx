@@ -1,32 +1,32 @@
 import { Button } from "antd";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { cartUIActions } from "../store/cartUI-slice";
+import { UIActions } from "../store/UI-slice";
 import { cartActions } from "../store/cart-slice";
 
 const CustomModalFooter = () => {
-  const currentWindow = useSelector((store) => store.cartUI.currentWindow);
-  const isOnlinePay = useSelector((store) => store.cartUI.isOnlinePay);
+  const currentModalWindow = useSelector((store) => store.UI.currentModalWindow);
+  const isOnlinePay = useSelector((store) => store.UI.isOnlinePay);
   const cartItems = useSelector((store) => store.cart.items);
   const dispatch = useDispatch();
 
   const handleOk = () => {
-    if (currentWindow === "cart") {
-      dispatch(cartUIActions.changeCurrentWindow("ordering"));
+    if (currentModalWindow === "cart") {
+      dispatch(UIActions.changecurrentModalWindow("ordering"));
     }
-    if (currentWindow === "ordering" && isOnlinePay) {
-      dispatch(cartUIActions.changeCurrentWindow("onlinePay"));
+    if (currentModalWindow === "ordering" && isOnlinePay) {
+      dispatch(UIActions.changecurrentModalWindow("onlinePay"));
     }
-    if (currentWindow === "ordering" && !isOnlinePay) {
-      dispatch(cartUIActions.changeCurrentWindow("orderComplete"));
+    if (currentModalWindow === "ordering" && !isOnlinePay) {
+      dispatch(UIActions.changecurrentModalWindow("orderComplete"));
     }
-    if (currentWindow === "orderComplete") {
-      dispatch(cartUIActions.changeModalIsOpen(false));
+    if (currentModalWindow === "orderComplete") {
+      dispatch(UIActions.changeModalIsOpen(false));
       dispatch(cartActions.setCartData([]));
-      dispatch(cartUIActions.changeCurrentWindow("cart"));
+      dispatch(UIActions.changecurrentModalWindow("cart"));
     }
-    if (currentWindow === "orders") {
-      dispatch(cartUIActions.changeModalIsOpen(false));
+    if (currentModalWindow === "orders") {
+      dispatch(UIActions.changeModalIsOpen(false));
     }
   };
 
@@ -37,7 +37,7 @@ const CustomModalFooter = () => {
         onClick={handleOk}
         disabled={cartItems.length <= 0 ? true : false}
       >
-        {currentWindow === "orderComplete" || currentWindow === "orders"
+        {currentModalWindow === "orderComplete" || currentModalWindow === "orders"
           ? "Закрыть"
           : "Далее"}
       </Button>

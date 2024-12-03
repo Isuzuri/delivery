@@ -2,21 +2,20 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Ordering from "./Ordering";
 import Cart from "../components/Cart";
-import { cartUIActions } from "../store/cartUI-slice";
+import { UIActions } from "../store/UI-slice";
 import OnlinePay from "./OnlinePay";
 import { Modal } from "antd";
 import CustomModalFooter from "./CustomModalFooter";
 import OrderComplete from "./OrderComplete";
-import Orders from "./Orders";
 
 const CustomModal = () => {
-  const isOpen = useSelector((store) => store.cartUI.isOpen);
-  const currentWindow = useSelector((store) => store.cartUI.currentWindow);
+  const isOpen = useSelector((store) => store.UI.isOpen);
+  const currentModalWindow = useSelector((store) => store.UI.currentModalWindow);
   const dispatch = useDispatch();
 
   const handleCancel = () => {
-    dispatch(cartUIActions.changeModalIsOpen(false));
-    dispatch(cartUIActions.changeCurrentWindow("cart"));
+    dispatch(UIActions.changeModalIsOpen(false));
+    dispatch(UIActions.changecurrentModalWindow("cart"));
   };
 
   return (
@@ -24,19 +23,17 @@ const CustomModal = () => {
       open={isOpen}
       onCancel={handleCancel}
       footer={
-        currentWindow === "ordering" || currentWindow === "onlinePay" ? (
+        currentModalWindow === "ordering" || currentModalWindow === "onlinePay" ? (
           ""
         ) : (
           <CustomModalFooter />
         )
       }
-      width={currentWindow === "orders" ? "80%" : "520px"}
     >
-      {currentWindow === "cart" && <Cart />}
-      {currentWindow === "ordering" && <Ordering />}
-      {currentWindow === "onlinePay" && <OnlinePay />}
-      {currentWindow === "orderComplete" && <OrderComplete />}
-      {currentWindow === "orders" && <Orders />}
+      {currentModalWindow === "cart" && <Cart />}
+      {currentModalWindow === "ordering" && <Ordering />}
+      {currentModalWindow === "onlinePay" && <OnlinePay />}
+      {currentModalWindow === "orderComplete" && <OrderComplete />}
     </Modal>
   );
 };

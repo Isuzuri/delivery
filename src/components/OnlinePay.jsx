@@ -1,10 +1,15 @@
 import React from "react";
 import { Button, Flex, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
+import { useDispatch } from "react-redux";
+import UISlice from "../store/UI-slice";
 
 const OnlinePay = () => {
   const [form] = useForm();
-  const handleSubmit = (userData) => {};
+  const dispatch = useDispatch()
+  const handleSubmit = (userData) => {
+    dispatch(UISlice.actions.changecurrentModalWindow('orderComplete'))
+  };
 
   return (
     <Form

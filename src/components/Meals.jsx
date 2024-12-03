@@ -23,7 +23,7 @@ const Meals = () => {
       {meals.map((meal) => {
         return (
           <Card
-            key={meal.id}
+            key={meal.name}
             style={{ width: "350px" }}
             cover={
               <img
@@ -46,6 +46,7 @@ const Meals = () => {
             ]}
           >
             <Meta
+
               title={meal.name}
               description={[
                 meal.ingredients.map((ingredient) => (

@@ -12,8 +12,21 @@ const orderSlice = createSlice({
         items: action.payload.items,
         userData: action.payload.userData,
         createdAt: Date.now().toString(),
+        isComplete: false,
       };
       const changedOrderList = [...state.orderList, newOrder];
+      state.orderList = changedOrderList;
+    },
+    changeOrderStatus(state, action) {
+      const changedOrderList = state.orderList.map((order) => {
+        if (order.id === action.payload) {
+          return {
+            ...order,
+            isComplete: !order.isComplete,
+          };
+        }
+        return order;
+      });
       state.orderList = changedOrderList;
     },
   },
